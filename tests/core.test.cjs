@@ -667,3 +667,42 @@ test('isConstNode：常数折叠判断', () => {
   assert.strictEqual(C.isConstNode(C.parse('x*2', ['x'])), false);
   assert.strictEqual(C.isConstNode(C.parse('2^x', ['x'])), false);
 });
+
+// ══════════════════════════════════════════════════════════════
+// 11. 内置场景（随包发布，必须全部可解且数值有效）
+// ══════════════════════════════════════════════════════════════
+test('5 个内置场景全部可解、字段有效、数字可回溯', () => {
+  assert.strictEqual(C.presets.length, 5);
+  const keys = C.presets.map(p => p.key);
+  assert.deepStrictEqual(keys, ['floor', 'cylinder', 'density', 'parallel', 'spending']);
+  C.presets.forEach(p => {
+    const r = C.solve({ resultName: p.resultName, resultUnit: p.resultUnit, vars: p.vars, expr: p.expr, target: p.target, mcSamples: 20000 });
+    assert.ok(isFinite(r.f), p.key + ' f 有限');
+    assert.ok(isFinite(r.sigmaF) && r.sigmaF > 0, p.key + ' σ_f 有限且为正');
+    assert.ok(Math.abs(r.vars.reduce((a, v) => a + v.contributionPct, 0) - 100) < 1e-9, p.key + ' 贡献合计 100%');
+    assert.strictEqual(r.usedCount, r.varCount, p.key + ' 所有变量都参与公式');
+    assert.ok(isFinite(r.corners.min) && isFinite(r.corners.max), p.key + ' 角点有效');
+    assert.ok(isFinite(r.mc.sd), p.key + ' 蒙特卡洛有效');
+    assert.ok(r.advice.length >= 3, p.key + ' 有建议');
+    assert.ok(!/undefined|NaN|Infinity/.test(r.advice.map(a => a.text).join('')), p.key + ' 建议无脏字');
+  });
+});
+
+test('内置场景数值与页面默认锚点一致（floor）', () => {
+  const p = C.presets.find(x => x.key === 'floor');
+  const r = C.solve({ vars: p.vars, expr: p.expr, target: p.target, mcSamples: 20000 });
+  assert.deepStrictEqual(r.f, C.solve(C.sample).f);
+  assert.deepStrictEqual(r.sigmaF, C.solve(C.sample).sigmaF);
+  // 并联电阻 100Ω//150Ω = 60Ω
+  const q = C.presets.find(x => x.key === 'parallel');
+  const rq = C.solve({ vars: q.vars, expr: q.expr, target: q.target });
+  assert.ok(Math.abs(rq.f - 60) < 1e-12);
+  // 客单价 12800/160 = 80
+  const s = C.presets.find(x => x.key === 'spending');
+  const rs = C.solve({ vars: s.vars, expr: s.expr, target: s.target });
+  assert.ok(Math.abs(rs.f - 80) < 1e-12);
+  // 圆柱体积 pi*12.5^2*40 = 19634.954…
+  const c = C.presets.find(x => x.key === 'cylinder');
+  const rc = C.solve({ vars: c.vars, expr: c.expr, target: c.target });
+  assert.ok(Math.abs(rc.f - Math.PI * 12.5 * 12.5 * 40) < 1e-9);
+});
