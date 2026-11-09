@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" font-family="system-ui,-apple-system,'PingFang SC','Hiragino Sans GB',sans-serif">
+  <rect width="1200" height="1200" fill="#eef3f8"/>
+  <rect x="48" y="48" width="1104" height="1104" rx="28" fill="#ffffff"/>
+  <rect x="48" y="48" width="1104" height="10" rx="5" fill="#2d5f96"/>
+
+  <text x="104" y="152" font-size="25" font-weight="700" fill="#4f6b91" letter-spacing="4">ERROR PROPAGATION LEDGER</text>
+  <text x="104" y="198" font-size="25" font-weight="700" fill="#8ea3bd" letter-spacing="2">测量误差传播对账 · 误差传播台</text>
+
+  <text x="104" y="306" font-size="62" font-weight="800" fill="#22344e">你量出来的数字，</text>
+  <text x="104" y="388" font-size="62" font-weight="800" fill="#22344e">算到最后还能信几位？</text>
+
+  <line x1="104" y1="450" x2="1096" y2="450" stroke="#d9e3ee" stroke-width="3"/>
+
+  <text x="104" y="540" font-size="30" font-weight="600" fill="#5a6d84">地板采购面积（虚构示例）</text>
+  <text x="104" y="640" font-size="86" font-weight="800" fill="#22344e">13.834</text>
+  <text x="486" y="640" font-size="60" font-weight="800" fill="#a23b28">± 0.055 m²</text>
+  <text x="104" y="702" font-size="32" font-weight="700" fill="#a23b28">相对不确定度 ±0.3993%</text>
+
+  <line x1="104" y1="752" x2="1096" y2="752" stroke="#d9e3ee" stroke-width="3"/>
+
+  <text x="104" y="818" font-size="30" font-weight="700" fill="#22344e">误差贡献：谁的条最长，就先量准谁</text>
+
+  <text x="104" y="892" font-size="28" font-weight="700" fill="#22344e">宽</text>
+  <rect x="230" y="870" width="730" height="20" rx="10" fill="#e8eef7"/>
+  <rect x="230" y="870" width="477" height="20" rx="10" fill="#a23b28"/>
+  <text x="1096" y="892" font-size="28" font-weight="700" fill="#a23b28" text-anchor="end">65.3%</text>
+
+  <text x="104" y="958" font-size="28" font-weight="700" fill="#22344e">长</text>
+  <rect x="230" y="936" width="730" height="20" rx="10" fill="#e8eef7"/>
+  <rect x="230" y="936" width="253" height="20" rx="10" fill="#4a7cb5"/>
+  <text x="1096" y="958" font-size="28" font-weight="700" fill="#4a7cb5" text-anchor="end">34.7%</text>
+
+  <text x="104" y="1024" font-size="28" font-weight="700" fill="#22344e">损耗率</text>
+  <rect x="230" y="1002" width="730" height="20" rx="10" fill="#e8eef7"/>
+  <text x="1096" y="1024" font-size="28" font-weight="700" fill="#8ea3bd" text-anchor="end">0%</text>
+
+  <line x1="104" y1="1074" x2="1096" y2="1074" stroke="#d9e3ee" stroke-width="3"/>
+
+  <text x="104" y="1126" font-size="26" font-weight="600" fill="#2d5f96">前向自动微分算偏导 · 一阶传播 · 目标精度反推 · 2ⁿ 角点扫描</text>
+  <text x="104" y="1162" font-size="26" font-weight="600" fill="#2d5f96">固定种子蒙特卡洛对照 · 全部在本机算，不联网</text>
+</svg>
